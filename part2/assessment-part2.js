@@ -44,7 +44,13 @@ function noWeakLink() {
     url: '/api/users'
   })
   // CODE HERE...
-
+  .then(response=>{
+    firstUser = response.data[0];
+    return response;
+  }).then(response=>{
+    thirdUser = response.data[2];
+    return response.data[9];
+  })
 }
 
 
@@ -70,11 +76,11 @@ var elephant = {
   name: 'Horton'
 }
 function large() {
-
   return 'My name is ' + this.name + ' and I am very heavy!'
 }
 // CODE HERE...
 
+var boundToElephant = large.bind(elephant);
 
 
 // *************
@@ -89,7 +95,9 @@ function large() {
 
 // CODE HERE...
 
-
+function deathStar(capacity, crew){
+  return capacity.bind(crew);
+}
 
 // *************
 // * PROBLEM 4 *
@@ -104,7 +112,12 @@ function large() {
 
 // CODE HERE...
 
-
+function accountingOffice(assets){
+  this.assets = assets;
+  return function myFunc(liabilities){
+    return this.assets + liabilities;
+  }
+};
 
 // *************
 // * PROBLEM 5 *
@@ -129,7 +142,17 @@ function large() {
 
 // CODE HERE...
 
-
+function forgetter(name){
+  this.name = name;
+  this.items = [];
+  return function rememberall(item){
+    this.items.push(item);
+    return {
+      name: this.name,
+      remember: this.items
+    }
+  }
+}
 
 // *************
 // * PROBLEM 6 *
@@ -156,3 +179,47 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+
+
+
+function frodo(startingHungerValue, startingDangerValue){
+  this.shv = startingHungerValue;
+  this.sdv = startingDangerValue;
+  return {
+    dinnerOverFire: ()=>{
+      if(this.shv>=25){
+      this.shv -= 25;
+      }else{
+        this.shv = 0;
+      }
+      if(this.sdv<=60){
+      this.sdv += 40;
+      }else{
+        this.sdv = 100;
+      }
+      return{
+        hunger: this.shv,
+        danger: this.sdv
+      }
+    },
+    hidingInBush: ()=>{
+      if(this.shv<=65){
+      this.shv += 35;
+      }else{
+        this.shv = 100;
+      }
+      if(this.sdv>=20){
+      this.sdv -= 20;
+      }else{
+        this.sdv = 0;
+      }
+      return{
+        hunger: this.shv,
+        danger: this.sdv
+      }
+    }
+  }
+}
+
+
+
